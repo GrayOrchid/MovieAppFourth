@@ -1,0 +1,351 @@
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import './pages.css'
+
+const Moviepage = () => {
+    
+    let { movieId } = useParams();
+    let [movie, setMovie] = useState({});
+    let [trailer,setTrailer] = useState([])
+    let [genres  , setGenres] = useState([])
+    let [countries,setCountries] = useState([]) 
+   
+    let [companies,setComapanies] = useState([])
+    let [cast,setCast] = useState([])
+    let key = `82c0eaa6b4a3e3b9581bcd29c4e1872f`
+    const youtubeUrl = "https://www.youtube.com/watch?v=";
+    async function      getMovies( )   {
+        let url = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=82c0eaa6b4a3e3b9581bcd29c4e1872f&language=ru-RUS`
+        );
+        let data = await url.json(url);
+        setMovie(data);
+       if (data.production_companies<0) {
+        setComapanies(data.production_companies)
+       }
+
+   
+       if (data.production_countries<0) {
+        setCountries(data.production_countries)
+       }
+
+
+       setCountries(data.production_countries)
+        setGenres(data.genres)
+        setComapanies(data.production_companies)
+      }
+
+      async function getVideo(params) {
+        let url = await fetch(
+            `
+            https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${key}&language=ru-RUS  `
+          );
+          let data = await url.json(url)
+          let trailers = data.results
+
+
+              
+
+    
+
+  if (trailers) {
+    let trailersFilter =  trailers.filter((e)=>(e.type === 'Trailer'))
+    setTrailer(trailersFilter) 
+
+  }
+  
+
+ 
+
+
+      }
+      
+     async function getCredits(params) {
+      let url = await fetch(
+        `
+        https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=en-US `
+      );
+      let data = await url.json(url)
+      setCast(data.cast)
+  
+      }
+
+      useEffect(()=>{
+          getMovies( )  
+          getVideo()
+          getCredits()
+      },[])
+     
+
+
+    return (
+        <motion.div className='movie-page ' 
+       
+        >
+     
+           <div className="movie-backround">
+        
+                <div >
+                  <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}alt="" />
+                </div>
+                <div className="blur"></div>
+              </div>
+            <div className="movie-container">
+             
+            <div className='home'> <Link to='/'>home</Link></div>
+              <div className="movie-info">
+            <div className='movie-img'>  
+              <motion.img  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" 
+              transition={{duration:1}}
+              initial={{
+                
+                opacity:0
+                        }}
+                        animate={{
+                          opacity:1
+                        }}
+                       
+                        
+                        />
+            <div className="movie-button">
+                 <div className="movie-add">
+                Add to favorite
+            </div>
+            </div>
+           
+         
+              </div>
+               
+           
+              <motion.div className="movie-text"    transition={{duration:1 ,delay:.5}}
+              initial={{
+                
+                opacity:0
+                        }}
+                        animate={{
+                          opacity:1
+                        }}
+                       >
+                 <div className="movie-title movie-item">Title: {movie.original_title} </div>
+              <div className="movie-genres array  movie-item">Genres: {genres.map((genre,index)=>(<div className='movie-genre array-item' key={index}>{genre.name},</div>))}
+                </div>
+                <div className="movie-budget movie-item ">Budget: {movie.budget}</div>
+                <div className="movie-countries movie-item">Countries: {countries.map((country,index)=>(<div className='movie-country array-item'  key={index}>{country.name}</div>))}</div>
+                <div className="movie-companies movie-array movie-item">Companys: {companies.map((comapany,index)=>(<div className='movie-company array-item' key={index}>{comapany.name},</div>))}</div>
+              <div className="movie-overview movie-item">Overview: {movie.overview}</div>
+        
+              </motion.div>
+
+              </div >
+         
+<div className="trailer-list">
+
+{trailer.slice(0,3).map((e)=>(
+<div className='movie-trailer'>
+  <div>{e.name}</div>
+  <ReactPlayer
+              width={'100%'}
+          
+url={youtubeUrl +e.key}
+controls
+
+
+
+>
+
+</ReactPlayer>
+   </div>
+  ))}
+</div>
+
+        
+     
+       <div className="cast">
+
+      
+    {cast.slice(0,10).map((e,index)=>(
+      <div className='casts' key={index}>
+          <img  src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
+          <div className="name">{e.name}</div>
+          <div className='language'>{e.character}</div>
+      </div>
+    ))} 
+     </div>
+            </div>
+
+        </motion.div>
+    );
+    
+}
+
+export default Moviepage;
+
+
+
+
+
+
+
+
+
+
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import './pages.css'
+
+const Moviepage = () => {
+  let {movieId} = useParams();
+
+  let [movie, setMovie] = useState({});
+  let [trailer, setTrailer] = useState([])
+  let [genres, setGenres] = useState([])
+  let [countries, setCountries] = useState([])
+  let [similar, setSimilar] = useState([])
+  let [companies, setComapanies] = useState([])
+  let [cast, setCast] = useState([])
+
+  let key = `82c0eaa6b4a3e3b9581bcd29c4e1872f`
+  const youtubeUrl = "https://www.youtube.com/watch?v=";
+
+
+  async function getSemilarMovies(params) {
+    let url = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=82c0eaa6b4a3e3b9581bcd29c4e1872f&language=en-US&page=1`)
+    let data = await url.json(url);
+  
+    setSimilar(data.results)
+  }
+  async function getMovies() {
+    let url = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}?api_key=82c0eaa6b4a3e3b9581bcd29c4e1872f&language=ru-RUS`
+    );
+    let data = await url.json(url);
+    setMovie(data);
+
+    if (data.production_companies) {
+      setComapanies(data.production_companies) 
+    }
+
+    if (data.production_countries) {
+      setCountries(data.production_countries)
+    }
+    
+    setGenres(data.genres)
+  }
+  
+  async function getVideo(params) {
+    let url = await fetch(` https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${key}&language=ru-RUS `);
+    let data = await url.json(url)
+    let trailers = data.results
+
+    if (trailers) {
+      let trailersFilter = trailers.filter((e) => (e.type === 'Trailer'))
+      setTrailer(trailersFilter) 
+    }
+  }
+  
+  async function getCredits(params) {
+    let url = await fetch(` https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=en-US `);
+    let data = await url.json(url)
+    setCast(data.cast) 
+  }
+  
+  useEffect(() => {
+    getMovies()
+    getVideo()
+    getCredits()
+    getSemilarMovies()
+  }, [])
+
+    return (
+      <div className="movie-page">
+      <div className="movie-background">
+         <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}alt="" />
+         <div className="blur"></div>
+      </div>
+      <div className="container">
+         <Link to='/'>
+         <h1>BACK</h1>
+         </Link>
+         <div className="movie-info">
+            <div className="movie-img">
+               <motion.img  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} 
+               initial={{opacity: 1, scale: 0 }}
+               animate={{
+      
+      opacity: 1,scale: 1  }}
+     
+     transition={{delayChildren: 0.3,
+      staggerChildren: 0.2}}/>
+            </div>
+            <motion.div className="movie-text" transition={{duration:1}}initial={{opacity:0}}animate={{opacity:1}}>
+               <div className="movie-title movie-item">{movie.title}</div>
+               <div className="movie-item">
+                  Genres: {genres.map((e)=>(
+                  <div className='item'>{e.name},</div>
+                  ))}
+               </div>
+               <div className="movie-item">Status: <div className="item">{movie.status}</div></div>
+               <div className="movie-companies movie-item">
+                  Companies: {companies.map((e)=>(
+                  <div className='item'>{e.name},</div>
+                  ))} 
+               </div>
+               <div className="movie-countries movie-item">
+                  Countries: {countries.map((e)=>(
+                  <div className='item'>{e.name},</div>
+                  ))}
+               </div>
+               <div className="movie-item">Budget: <div className="item">{movie.budget}$</div></div>
+               <div className="movie-item">Vote average: <div className="item">{movie.vote_average}</div></div>
+               <div className="movie-overviev movie-item">{movie.overview}</div>
+            </motion.div>
+         </div>
+         <div className="movie-block">
+            TRAILERS / TEASERS
+            <div className="movie-trailers">
+               {trailer.map((e)=>(
+               <div className='movie-trailer'>
+                  <div>{e.name}</div>
+                  <ReactPlayer width={'100%'}  url={youtubeUrl +e.key}controls></ReactPlayer>
+               </div>
+               ))}
+            </div>
+         </div>
+         <div className="movie-block">
+            MOVIE CAST
+            <div className="movie-cast">
+               {cast.slice(0,10).map((e)=>(
+               <div className="movie-actor">
+                  <img src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
+                  <div>{e.name}</div>
+                  <div>{e.character}</div>
+               </div>
+               ))}
+            </div>
+         </div>
+         <div className="movie-block">
+            SIMILAR MOVIES
+            <div className="similar-movies">
+               {similar.map((e)=>(
+               <div className='similar-movie'>
+               <img src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`}  />
+                  <div>{e.original_title}</div>
+                  
+               </div>
+               ))}
+            </div>
+         </div>
+      </div>
+   </div>
+
+      
+    )
+}
+
+export default Moviepage;

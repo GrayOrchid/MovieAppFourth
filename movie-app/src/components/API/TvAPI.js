@@ -3,7 +3,7 @@ let key = "82c0eaa6b4a3e3b9581bcd29c4e1872f";
 
 export default class TvAPI{
 	static async getTrendTvShows(setTrendTv,setFilterTv) {
-		let response = await axios.get(`https://api.themoviedb.org/3/tv/popular?api_key=${key}&language=ru-RUS&`)
+		let response = await axios.get(`https://api.themoviedb.org/3/tv/popular?api_key=${key}&`)
         setTrendTv(response.data.results)
         setFilterTv(response.data.results)
 		return response

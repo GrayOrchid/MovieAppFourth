@@ -45,11 +45,11 @@ img {
 	color: white;
 }
 
-.info {
+.item-info {
 	text-align: start;
-}
+	display: flex;
+	flex-flow: column;
 
-.relaese {
 	font-family: 'DM Sans';
 	font-style: normal;
 	font-weight: 700;
@@ -58,33 +58,27 @@ img {
 	color: #9CA3AF;
 }
 
-.name {
+.movie-relaese {
+	font-family: 'DM Sans';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 25px;
+	color: #9CA3AF;
+}
+
+.item-name {
 	font-family: 'DM Sans';
 	font-style: normal;
 	font-weight: 700;
 	font-size: 18px;
 	line-height: 23px;
+
+	color: white;
 }
 
-.vote {
-	font-family: 'DM Sans';
-	font-style: normal;
-	font-weight: 700;
-	font-size: 15px;
-	line-height: 25px;
-	color: #9CA3AF;
-}
 
-.language {
-	font-family: 'DM Sans';
-	font-style: normal;
-	font-weight: 700;
-	font-size: 15px;
-	line-height: 25px;
-	color: #9CA3AF;
-}
-
-.block-name {
+.slider-name {
 	font-family: 'Roboto';
 	font-style: normal;
 	font-weight: 600;
@@ -93,11 +87,13 @@ img {
 	color: #FFFFFF;
 }
 
-.items {
+.slider-items {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 200px;
+
+
 }
 
 .all {

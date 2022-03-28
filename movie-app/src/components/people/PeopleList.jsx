@@ -1,20 +1,20 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import Movies from './Movies';
+import People from './People';
 
-const Movislist = ({filter}) => {
+const Peoplelist = ({peopleArr}) => {
     return (
         <motion.div>
         <div className="slider-items">
-           <div className="slider-name">Movie Trends</div>
+           <div className="slider-name">People Trends</div>
         </div>
         <div className="movies">
-           {filter.map((e)=>(
-           <Movies  e={e}  />
+           {peopleArr.map((e)=>(
+           <People e={e}/>
            ))}
         </div>
      </motion.div>
     );
 }
 
-export default Movislist;
+export default Peoplelist;

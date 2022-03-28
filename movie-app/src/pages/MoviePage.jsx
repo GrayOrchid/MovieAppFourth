@@ -35,12 +35,15 @@ return (
       <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}alt="" />
       <div className="blur"></div>
    </div>
-   <motion.div className="container"   initial={{opacity: 1, scale: 0 }}
+   <motion.div className="container" 
+     initial={{opacity: 1, scale: 0 }}
    duration={{transition:1}}
             animate={{
             opacity: 1,scale: 1 }}
             transition={{delayChildren: 0.3,
-            staggerChildren: 0.2}}>
+            staggerChildren: 0.2}}
+            
+            >
       <Link to='/'>
       <h1>BACK</h1>
       </Link>
@@ -51,9 +54,14 @@ return (
             animate={{
             opacity: 1,scale: 1 }}
             transition={{delayChildren: 0.3,
-            staggerChildren: 0.2}}/>
+            staggerChildren: 0.2}}
+               
+            />
          </div>
-         <motion.div className="movie-text" transition={{duration:1}}initial={{opacity:0}}animate={{opacity:1}}>
+         <motion.div className="movie-text"
+         
+         transition={{duration:1}}initial={{opacity:0}}animate={{opacity:1}}
+         >
             <div className="movie-title movie-item">{movie.title}</div>
             <div className="movie-item">
                Genres: {genres.map((e)=>(

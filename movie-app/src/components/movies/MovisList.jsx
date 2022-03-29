@@ -9,8 +9,8 @@ const Movislist = ({filter}) => {
            <div className="slider-name">Movie Trends</div>
         </div>
         <div className="movies">
-           {filter.map((e)=>(
-           <Movies  e={e}  />
+           {filter.map((e,index)=>(
+           <Movies  e={e}  key={index}  />
            ))}
         </div>
      </motion.div>

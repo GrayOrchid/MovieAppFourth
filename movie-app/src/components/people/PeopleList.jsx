@@ -9,8 +9,8 @@ const Peoplelist = ({peopleArr}) => {
            <div className="slider-name">People Trends</div>
         </div>
         <div className="movies">
-           {peopleArr.map((e)=>(
-           <People e={e}/>
+           {peopleArr.map((e,index)=>(
+           <People e={e} key={index} />
            ))}
         </div>
      </motion.div>

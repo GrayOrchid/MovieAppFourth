@@ -3,16 +3,18 @@ import TV from './TV';
 import { motion } from 'framer-motion';
 const Tvlist = ({tvFilter}) => {
     return (
-        <motion.div>
+   <div>
+           <motion.div>
         <div className="slider-items">
-           <div className="slider-name">TvTrends</div>
+           <div className="slider-name">Tv Trends</div>
         </div>
         <div className="movies">
-           {tvFilter.map((e)=>(
-           <TV e={e}/>
+           {tvFilter.map((e,index)=>(
+           <TV e={e } key={index} />
            ))}
         </div>
      </motion.div>
+   </div>
     );
 }
 

@@ -5,16 +5,18 @@ import Movies from './Movies';
 const Searchlist = ({searchMovie,query}) => {
     
     return (
-        <motion.div animate={{opacity:1 }}>
+   <div>
+      {query?      <motion.div animate={{opacity:1 }}>
        <div className="slider-items">
-           <div className="slider-name">TV: {query}</div>
+           <div className="slider-name">Movies: {query}</div>
         </div>
         <div className="movies">
-           {searchMovie.map((e)=>(
-           <Movies  e={e}  />
+           {searchMovie.map((e,index)=>(
+           <Movies key={index} e={e}  />
            ))}
         </div>
-     </motion.div>
+     </motion.div>:<></>}
+   </div>
     );
 }
 

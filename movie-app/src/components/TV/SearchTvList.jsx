@@ -4,16 +4,18 @@ import TV from './TV';
 
 const SearchTvlist = ({searchTv,query}) => {
     return (
-        <motion.div animate={{opacity:1 }}>
+    <div>
+        {query?    <motion.div animate={{opacity:1 }}>
        <div className="slider-items">
            <div className="slider-name">TV: {query}</div>
         </div>
         <div className="movies">
-           {searchTv.map((e)=>(
-           <TV  e={e}  />
+           {searchTv.map((e,index)=>(
+           <TV  e={e} key={index}  />
            ))}
         </div>
-     </motion.div>
+     </motion.div>:<></>}
+    </div>
     );
 }
 

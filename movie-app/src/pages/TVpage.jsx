@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import { Link ,useParams} from 'react-router-dom';
 import TvAPI from '../components/API/TvAPI';
 import './pages.css'
-const Tvpage = () => {
+const Tvpage = ({addFavoriteTv}) => {
     
 
     let { TVId} = useParams();
@@ -41,6 +41,7 @@ useEffect(()=>{
          <Link to='/'>
          <h1>BACK</h1>
          </Link>
+         <button onClick={()=>addFavoriteTv(Tv)}> ADD</button>
          <div className="movie-info">
             <div className="movie-img">
                <motion.img src={`https://image.tmdb.org/t/p/w500/${Tv.poster_path}`}
@@ -53,8 +54,8 @@ useEffect(()=>{
             <motion.div className="movie-text" transition={{duration:1}}initial={{opacity:0}}animate={{opacity:1}}>
                <div className="movie-title movie-item">{Tv.title}</div>
                <div className="movie-item">
-                  Genres: {genres.map((e)=>(
-                  <div className='item'>{e.name},</div>
+                  Genres: {genres.map((e,index)=>(
+                  <div className='item' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-item">
@@ -62,13 +63,13 @@ useEffect(()=>{
                   <div className="item">{Tv.status}</div>
                </div>
                <div className="movie-companies movie-item">
-                  Companies: {companies.map((e)=>(
-                  <div className='item'>{e.name},</div>
+                  Companies: {companies.map((e,index)=>(
+                  <div className='item' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-countries movie-item">
-                  Countries: {countries.map((e)=>(
-                  <div className='item'>{e.name},</div>
+                  Countries: {countries.map((e,index)=>(
+                  <div className='item' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-item">
@@ -85,8 +86,8 @@ useEffect(()=>{
          <div className="movie-block">
             TRAILERS / TEASERS
             <div className="movie-trailers">
-               {trailer.map((e)=>(
-               <div className='movie-trailer'>
+               {trailer.map((e,index)=>(
+               <div className='movie-trailer' key={index} >
                   <div>{e.name}</div>         
                   <ReactPlayer width={'100%'} url={youtubeUrl +e.key}controls></ReactPlayer>
                </div>
@@ -96,8 +97,8 @@ useEffect(()=>{
          <div className="movie-block">
            CAST
             <div className="movie-cast">
-               {cast.slice(0,10).map((e)=>(
-               <div className="movie-actor">
+               {cast.slice(0,10).map((e,index)=>(
+               <div className="movie-actor" key={index} >
                   <img src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
                   <div>{e.name}</div>
                   <div>{e.character}</div>
@@ -108,8 +109,8 @@ useEffect(()=>{
          <div className="movie-block">
             SIMILAR TVSHOWS
             <div className="similar-movies">
-               {similar.map((e)=>(
-               <div className='similar-movie'>
+               {similar.map((e,index)=>(
+               <div className='similar-movie' key={index} >
                   <img
                      src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} />
                   <div>{e.name}</div>

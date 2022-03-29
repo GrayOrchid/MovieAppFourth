@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import MoviesAPI from '../components/API/API';
 import './pages.css'
 
-const Moviepage = () => {
+const Moviepage = ({ addFavoriteMovies}) => {
 let {movieId} = useParams();
 let [movie, setMovie] = useState({});
 let [trailer, setTrailer] = useState([])
@@ -47,6 +47,7 @@ return (
       <Link to='/'>
       <h1>BACK</h1>
       </Link>
+      <button onClick={()=>addFavoriteMovies(movie)}> ADD</button>
       <div className="movie-info">
          <div className="movie-img">
             <motion.img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -64,8 +65,8 @@ return (
          >
             <div className="movie-title movie-item">{movie.title}</div>
             <div className="movie-item">
-               Genres: {genres.map((e)=>(
-               <div className='item'>{e.name},</div>
+               Genres: {genres.map((e,index)=>(
+               <div className='item' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-item">
@@ -73,13 +74,13 @@ return (
                <div className="item">{movie.status}</div>
             </div>
             <div className="movie-companies movie-item">
-               Companies: {companies.map((e)=>(
-               <div className='item'>{e.name},</div>
+               Companies: {companies.map((e,index)=>(
+               <div className='item' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-countries movie-item">
-               Countries: {countries.map((e)=>(
-               <div className='item'>{e.name},</div>
+               Countries: {countries.map((e,index)=>(
+               <div className='item' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-item">
@@ -96,8 +97,8 @@ return (
       <div className="movie-block">
          TRAILERS / TEASERS
          <div className="movie-trailers">
-            {trailer.map((e)=>(
-            <div className='movie-trailer'>
+            {trailer.map((e,index)=>(
+            <div className='movie-trailer' key={index} >
                <div>{e.name}</div>
                <ReactPlayer width={'100%'} url={youtubeUrl +e.key}controls></ReactPlayer>
             </div>
@@ -107,8 +108,8 @@ return (
       <div className="movie-block">
          MOVIE CAST
          <div className="movie-cast">
-            {cast.slice(0,10).map((e)=>(
-            <div className="movie-actor">
+            {cast.slice(0,10).map((e,index)=>(
+            <div className="movie-actor" key={index} >
                <img src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
                <div>{e.name}</div>
                <div>{e.character}</div>
@@ -119,8 +120,8 @@ return (
       <div className="movie-block">
          SIMILAR MOVIES
          <div className="similar-movies">
-            {similar.map((e)=>(
-            <div className='similar-movie'>
+            {similar.map((e,index)=>(
+            <div className='similar-movie' key={index} >
                <img
                   src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} />
                <div>{e.original_title}</div>

@@ -8,30 +8,31 @@ import React, {
 
 import MoviesAPI from "..//components/API/API";
 import TvAPI from '../components/API/TvAPI';
+import FavoriteMovies from '../components/movies/FavoriteMovies';
 
 import Movislist from '../components/movies/MovisList';
 import Searchlist from '../components/movies/SearchList';
 import Peoplelist from '../components/people/PeopleList';
+import FavoriteTv from '../components/TV/FavoriteTv';
 import SearchTvlist from '../components/TV/SearchTvList';
 import Tvlist from '../components/TV/TVlist';
 
-const Homepage = () => {
+
+const Homepage = ({favoriteMovies,favoriteTvShows}) => {
+
 		let [movies, setMovies] = useState([])
 		let [query, setQuery] = useState('')
 		let [genreMovies, setGenreMovies] = useState(0)
-
 		let [trendTv, setTrendTv] = useState([])
 		let [tvFilter, setFilterTv] = useState([])
 		let [filter, setFilter] = useState([])
 		let [searchMovie, setSearchMovie] = useState([])
 		let [searchTv, setSearchTv] = useState([])
 		let [peopleArr, setPeopleArr] = useState([])
-
-
+	
 		async function getTrends(params) {
 			await MoviesAPI.getTrendMovies(setMovies, setFilter)
 			await MoviesAPI.getTrendPeople(setPeopleArr)
-
 			await TvAPI.getTrendTvShows(setTrendTv, setFilterTv)
 
 		}
@@ -59,24 +60,21 @@ const Homepage = () => {
 
 		useEffect(() => {
 			getTrends()
-
 		}, [])
 
 		useEffect(() => {
-			searchMoviesAndTVShows()
-
+			searchMoviesAndTVShows()		
 		}, [query])
 
     return (
       <motion.div className='home-page'>
+		
       <input type="text" onChange={e=>setQuery(e.target.value)} />  
-      {/* 
-      <Slider/>
-      */}
-      {query?<>
+     
+   
       <Searchlist searchMovie={searchMovie} query={query}/>
       <SearchTvlist searchTv={searchTv} query={query}/>
-      </>:<></>}
+    
       <div className="genres">
          <div className="all" onClick={()=>setGenreMovies(28)}>Action</div>
          <div className="all" onClick={()=>setGenreMovies(35)}>Comedy</div>
@@ -85,7 +83,10 @@ const Homepage = () => {
       </div>
       <Movislist filter={filter}/>
       <Tvlist tvFilter={tvFilter}/>
+	  <FavoriteMovies favoriteMovies={favoriteMovies}/>
+	  <FavoriteTv favoriteTvShows={favoriteTvShows}/>
       <Peoplelist peopleArr={peopleArr}/>
+	 
    </motion.div>
     );
 }

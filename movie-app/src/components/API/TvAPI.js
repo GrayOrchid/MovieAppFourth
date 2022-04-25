@@ -15,7 +15,6 @@ static async searchTvShows(query,setSearchTv){
     
     if (response.data.results) {
         setSearchTv(response.data.results)
-        console.log(response.data.results);
     }
 }
 
@@ -55,6 +54,7 @@ if (TvData.production_companies) {
     }
     static async getSimilarTv(TVId,setSmilar){
         let response = await axios.get(`https://api.themoviedb.org/3/tv/${TVId}/similar?api_key=${key}&language=en-US&page=1`)
+        
         if (response.data.results) {
          setSmilar(response.data.results)
         }

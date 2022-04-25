@@ -10,7 +10,7 @@ const People = (props) => {
       <div >{props.e.known_for_department}</div>
       <div className='item-name'>{props.e.name }</div>
       <div >Movies :</div>
-      <div >{props.e.known_for[0].original_title} , {props.e.known_for[1].original_title} </div>
+      <div >{props.e.known_for[0].original_title}  </div>
    </div>
 </div>
     );

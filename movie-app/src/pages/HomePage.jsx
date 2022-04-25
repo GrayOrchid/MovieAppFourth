@@ -1,93 +1,93 @@
-import {
-	motion
-} from 'framer-motion';
-import React, {
-	useEffect,
-	useState
-} from 'react';
-
+import {motion} from 'framer-motion';
+import React, {useEffect,useMemo,useState} from 'react';
 import MoviesAPI from "..//components/API/API";
 import TvAPI from '../components/API/TvAPI';
-import FavoriteMovies from '../components/movies/FavoriteMovies';
-
+import Header from '../components/header/Header';
+import FavoriteMoviesList from '../components/movies/FavoriteMoviesList';
 import Movislist from '../components/movies/MovisList';
 import Searchlist from '../components/movies/SearchList';
 import Peoplelist from '../components/people/PeopleList';
-import FavoriteTv from '../components/TV/FavoriteTv';
+import FavoriteTvList from '../components/TV/FavoriteTvList';
 import SearchTvlist from '../components/TV/SearchTvList';
 import Tvlist from '../components/TV/TVlist';
+import Burger from '../components/UI/burger/Burger';
 
 
-const Homepage = ({favoriteMovies,favoriteTvShows}) => {
 
-		let [movies, setMovies] = useState([])
-		let [query, setQuery] = useState('')
-		let [genreMovies, setGenreMovies] = useState(0)
-		let [trendTv, setTrendTv] = useState([])
-		let [tvFilter, setFilterTv] = useState([])
-		let [filter, setFilter] = useState([])
-		let [searchMovie, setSearchMovie] = useState([])
-		let [searchTv, setSearchTv] = useState([])
-		let [peopleArr, setPeopleArr] = useState([])
-	
-		async function getTrends(params) {
-			await MoviesAPI.getTrendMovies(setMovies, setFilter)
-			await MoviesAPI.getTrendPeople(setPeopleArr)
-			await TvAPI.getTrendTvShows(setTrendTv, setFilterTv)
+const Homepage = ({
+	favoriteMovies,
+	favoriteTvShows,
+	addFavoriteMovie,
+	addFavoriteTv,
+	removeFavoriteTv,
+	removeFavoriteMovie
+}) => {
 
+	let [movies, setMovies] = useState([])
+	let [query, setQuery] = useState('')
+	let [genreMovies, setGenreMovies] = useState(0)
+	let [trendTv, setTrendTv] = useState([])
+	let [tvFilter, setFilterTv] = useState([])
+	let [filter, setFilter] = useState([])
+	let [searchMovie, setSearchMovie] = useState([])
+	let [searchTv, setSearchTv] = useState([])
+	let [peopleArr, setPeopleArr] = useState([])
+	let [show, setShow] = useState(false)
+
+	window.addEventListener('scroll', function (e) {
+
+	});
+
+	async function getTrends(params) {
+		await MoviesAPI.getTrendMovies(setMovies, setFilter)
+		await MoviesAPI.getTrendPeople(setPeopleArr)
+		await TvAPI.getTrendTvShows(setTrendTv, setFilterTv)
+
+	}
+	async function searchMoviesAndTVShows() {
+		await MoviesAPI.searchMovies(query, setSearchMovie)
+		await TvAPI.searchTvShows(query, setSearchTv)
+	}
+
+
+	useEffect(() => {
+		if (genreMovies === 0) {
+			setFilter(movies)
+			setFilterTv(trendTv)
+			return
 		}
-		async function searchMoviesAndTVShows() {
-			await MoviesAPI.searchMovies(query, setSearchMovie)
-			await TvAPI.searchTvShows(query, setSearchTv)
-		}
 
+		let filtered = movies.filter((item) => item.genre_ids.includes(genreMovies))
+		let filteredTv = trendTv.filter((item) => item.genre_ids.includes(genreMovies))
 
-		useEffect(() => {
-			if (genreMovies === 0) {
-				setFilter(movies)
-				setFilterTv(trendTv)
-				return
-			}
+		setFilter(filtered)
+		setFilterTv(filteredTv)
 
-			let filtered = movies.filter((item) => item.genre_ids.includes(genreMovies))
-			let filteredTv = trendTv.filter((item) => item.genre_ids.includes(genreMovies))
+	}, [genreMovies])
 
-			setFilter(filtered)
-			setFilterTv(filteredTv)
+	useEffect(() => {
+		getTrends()
+	}, [])
 
-		}, [genreMovies])
+	useEffect(() => {
+		searchMoviesAndTVShows()
+	}, [query])
 
-
-		useEffect(() => {
-			getTrends()
-		}, [])
-
-		useEffect(() => {
-			searchMoviesAndTVShows()		
-		}, [query])
 
     return (
-      <motion.div className='home-page'>
-		
-      <input type="text" onChange={e=>setQuery(e.target.value)} />  
-     
-   
-      <Searchlist searchMovie={searchMovie} query={query}/>
-      <SearchTvlist searchTv={searchTv} query={query}/>
-    
-      <div className="genres">
-         <div className="all" onClick={()=>setGenreMovies(28)}>Action</div>
-         <div className="all" onClick={()=>setGenreMovies(35)}>Comedy</div>
-         <div className="all" onClick={()=>setGenreMovies(0)}>All</div>
-         <div className="all" onClick={()=>setGenreMovies(12)}>Adventure </div>
-      </div>
-      <Movislist filter={filter}/>
-      <Tvlist tvFilter={tvFilter}/>
-	  <FavoriteMovies favoriteMovies={favoriteMovies}/>
-	  <FavoriteTv favoriteTvShows={favoriteTvShows}/>
-      <Peoplelist peopleArr={peopleArr}/>
-	 
-   </motion.div>
+		<motion.div className={show?'home-page scroll-none':'home-page'}>
+		<Burger show={show} setShow={setShow} favoriteMovies={favoriteMovies} favoriteTvShows={favoriteTvShows} setGenreMovies={setGenreMovies} />
+		<div className="home-container">
+		   <Header setShow={setShow} setQuery={setQuery}/>
+		   <Searchlist searchMovie={searchMovie} query={query} addFavoriteMovie={addFavoriteMovie}/>
+		   <SearchTvlist searchTv={searchTv} query={query}  addFavoriteTv={addFavoriteTv} />
+		   <Movislist filter={filter} addFavoriteMovie={addFavoriteMovie} />
+		   <Tvlist tvFilter={tvFilter} addFavoriteTv={addFavoriteTv}/>
+		   <FavoriteMoviesList favoriteMovies={favoriteMovies} removeFavoriteMovie={removeFavoriteMovie} />
+		   <FavoriteTvList favoriteTvShows={favoriteTvShows} removeFavoriteTv={removeFavoriteTv}/>
+		   <Peoplelist peopleArr={peopleArr} />
+		</div>
+		</motion.div>
     );
 }
 

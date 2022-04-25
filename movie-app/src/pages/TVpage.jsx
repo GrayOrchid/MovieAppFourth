@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import { Link ,useParams} from 'react-router-dom';
 import TvAPI from '../components/API/TvAPI';
 import './pages.css'
-const Tvpage = ({addFavoriteTv}) => {
+const Tvpage = () => {
     
 
     let { TVId} = useParams();
@@ -39,9 +39,9 @@ useEffect(()=>{
       </div>
       <div className="container">
          <Link to='/'>
-         <h1>BACK</h1>
+        <h1 className="back">Home</h1>
          </Link>
-         <button onClick={()=>addFavoriteTv(Tv)}> ADD</button>
+         
          <div className="movie-info">
             <div className="movie-img">
                <motion.img src={`https://image.tmdb.org/t/p/w500/${Tv.poster_path}`}
@@ -55,30 +55,30 @@ useEffect(()=>{
                <div className="movie-title movie-item">{Tv.title}</div>
                <div className="movie-item">
                   Genres: {genres.map((e,index)=>(
-                  <div className='item' key={index} >{e.name},</div>
+                  <div className='pd' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-item">
                   Status: 
-                  <div className="item">{Tv.status}</div>
+                  <div className="pd">{Tv.status}</div>
                </div>
                <div className="movie-companies movie-item">
                   Companies: {companies.map((e,index)=>(
-                  <div className='item' key={index} >{e.name},</div>
+                  <div className='pd' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-countries movie-item">
                   Countries: {countries.map((e,index)=>(
-                  <div className='item' key={index} >{e.name},</div>
+                  <div className='pd' key={index} >{e.name},</div>
                   ))}
                </div>
                <div className="movie-item">
                   Budget: 
-                  <div className="item">{Tv.budget}$</div>
+                  <div className="pd">{Tv.budget}$</div>
                </div>
                <div className="movie-item">
                   Vote average: 
-                  <div className="item">{Tv.vote_average}</div>
+                  <div className="pd">{Tv.vote_average}</div>
                </div>
                <div className="movie-overviev movie-item">{Tv.overview}</div>
             </motion.div>
@@ -95,29 +95,44 @@ useEffect(()=>{
             </div>
          </div>
          <div className="movie-block">
-           CAST
-            <div className="movie-cast">
-               {cast.slice(0,10).map((e,index)=>(
-               <div className="movie-actor" key={index} >
-                  <img src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
-                  <div>{e.name}</div>
-                  <div>{e.character}</div>
-               </div>
-               ))}
-            </div>
+         TVShow CAST
+         <div className="slider">
+            {cast.slice(0,10).map((e,index)=>(
+         <div className="item" key={index}>
+         <div className='item-img'> 
+            <img  src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
          </div>
-         <div className="movie-block">
-            SIMILAR TVSHOWS
-            <div className="similar-movies">
-               {similar.map((e,index)=>(
-               <div className='similar-movie' key={index} >
-                  <img
-                     src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} />
-                  <div>{e.name}</div>
-               </div>
-               ))}
-            </div>
+         <div className='item-info'>
+            <div >{e.known_for_department}</div>
+            <div className='item-name'>{e.name }</div>
+               <div>{e.character}</div>
+        
          </div>
+      </div>
+            ))}
+         </div>
+      </div>
+      <div className="movie-block">
+         SIMILAR  TVShows
+         <div className="slider">
+            {similar.map((e,index)=>(
+         <div className='item' key={index}>
+       
+         <div className='item-img'>
+            <motion.img   src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} alt="" />
+         </div>
+       
+         <div className='item-info'>
+            <div >Release: {e.first_air_date}</div>
+            <div className='item-name'>{e.name }</div>
+            <div >Vote: {e.vote_average}</div>
+            <div>Original Language: {e.original_language}</div>
+         
+         </div>
+      </div>
+            ))}
+         </div>
+      </div>
       </div>
    </div>
     );

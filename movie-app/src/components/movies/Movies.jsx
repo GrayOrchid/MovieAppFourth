@@ -3,7 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Movies = (props) => {
+
     return (
+
 <motion.div layout  
 animate={{
 x:[-1000,0],
@@ -11,6 +13,7 @@ scale: [0,1],
 opacity:[0.6,1]
 }}
 transition={{duration:1}}
+
 >
 <div className='item'>
    <Link to={`/movie/${props.e.id}`}>
@@ -23,6 +26,7 @@ transition={{duration:1}}
       <div className='item-name'>{props.e.original_title  }</div>
       <div >Vote: {props.e.vote_average}</div>
       <div>Original Language: {props.e.original_language}</div>
+      <div className="add" onClick={()=>props.addFavoriteMovie(props.e)}>ADD</div>
    </div>
 </div>
 </motion.div >

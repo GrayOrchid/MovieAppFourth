@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import MoviesAPI from '../components/API/API';
 import './pages.css'
 
-const Moviepage = ({ addFavoriteMovies}) => {
+const Moviepage = () => {
 let {movieId} = useParams();
 let [movie, setMovie] = useState({});
 let [trailer, setTrailer] = useState([])
@@ -24,6 +24,7 @@ await MoviesAPI.getMovieDetails(movieId,setGenres,setComapanies,setCountries,set
 await MoviesAPI.getMovieCast(movieId,setCast)
 await MoviesAPI.getSimilarMovies(movieId,setSimilar)
 }
+
 
 useEffect(() => {
 getDeteils()
@@ -45,9 +46,9 @@ return (
             
             >
       <Link to='/'>
-      <h1>BACK</h1>
+      <h1 className="back">Home</h1>
       </Link>
-      <button onClick={()=>addFavoriteMovies(movie)}> ADD</button>
+
       <div className="movie-info">
          <div className="movie-img">
             <motion.img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -66,30 +67,30 @@ return (
             <div className="movie-title movie-item">{movie.title}</div>
             <div className="movie-item">
                Genres: {genres.map((e,index)=>(
-               <div className='item' key={index} >{e.name},</div>
+               <div className='pd' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-item">
                Status: 
-               <div className="item">{movie.status}</div>
+               <div className="pd">{movie.status}</div>
             </div>
             <div className="movie-companies movie-item">
                Companies: {companies.map((e,index)=>(
-               <div className='item' key={index} >{e.name},</div>
+               <div className='pd' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-countries movie-item">
                Countries: {countries.map((e,index)=>(
-               <div className='item' key={index} >{e.name},</div>
+               <div className='pd' key={index} >{e.name},</div>
                ))}
             </div>
             <div className="movie-item">
                Budget: 
-               <div className="item">{movie.budget}$</div>
+               <div className="pd">{movie.budget}$</div>
             </div>
             <div className="movie-item">
                Vote average: 
-               <div className="item">{movie.vote_average}</div>
+               <div className="pd">{movie.vote_average}</div>
             </div>
             <div className="movie-overviev movie-item">{movie.overview}</div>
          </motion.div>
@@ -107,25 +108,40 @@ return (
       </div>
       <div className="movie-block">
          MOVIE CAST
-         <div className="movie-cast">
+         <div className="slider">
             {cast.slice(0,10).map((e,index)=>(
-            <div className="movie-actor" key={index} >
-               <img src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
-               <div>{e.name}</div>
+         <div className="item" key={index}>
+         <div className='item-img'> 
+            <img  src={`https://image.tmdb.org/t/p/w500/${e.profile_path}`} alt="" />
+         </div>
+         <div className='item-info'>
+            <div >{e.known_for_department}</div>
+            <div className='item-name'>{e.name }</div>
                <div>{e.character}</div>
-            </div>
+        
+         </div>
+      </div>
             ))}
          </div>
       </div>
       <div className="movie-block">
          SIMILAR MOVIES
-         <div className="similar-movies">
+         <div className="slider">
             {similar.map((e,index)=>(
-            <div className='similar-movie' key={index} >
-               <img
-                  src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} />
-               <div>{e.original_title}</div>
-            </div>
+         <div className='item' key={index}>
+      
+         <div className='item-img'>
+            <motion.img   src={`https://image.tmdb.org/t/p/w500/${e.poster_path}`} alt="" />
+         </div>
+       
+         <div className='item-info'>
+            <div >Release: {e.release_date}</div>
+            <div className='item-name'>{e.original_title  }</div>
+            <div >Vote: {e.vote_average}</div>
+            <div>Original Language: {e.original_language}</div>
+         
+         </div>
+      </div>
             ))}
          </div>
       </div>

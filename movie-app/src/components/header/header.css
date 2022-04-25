@@ -1,0 +1,53 @@
+.open{
+	
+	position: fixed;
+	width: 30px;
+	margin-top: 1rem;
+
+cursor: pointer;
+z-index: 998;
+
+}
+.open-items{
+transition: .3s;
+
+
+
+}
+.open-items:hover{
+	transform: scale(1.1);
+	
+}
+.open-items:hover .solid{
+	background: purple;
+}
+.solid{
+	width: 30px;
+	height: 5px;
+background: white;
+margin: 5px;
+transition: .3s;
+}
+.header{
+
+display: flex;
+}
+input{
+    width: 150px;
+    height: 35px;
+    font-size: 30px;
+    border: none;
+    background: #ffffff;
+    color: black;
+    margin-top: 1.5rem;
+    margin-left: 60px;
+    border-radius: 10px;
+}
+input:active{
+    outline: none;
+
+}
+input:focus{
+   outline: none;
+
+}

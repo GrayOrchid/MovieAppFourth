@@ -3,10 +3,10 @@ let key = "82c0eaa6b4a3e3b9581bcd29c4e1872f";
 
 export default class MoviesAPI {
 	static async getTrendMovies(setMovies,setFilter) {
-		let response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=ru-RUS&`)
+		let response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=ru-RUS`)
 		setMovies(response.data.results)
 		setFilter(response.data.results)
-	
+	console.log(response);
 		return response
 	}
 

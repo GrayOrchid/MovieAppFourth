@@ -24,6 +24,7 @@ transition={{duration:1}}
       <div className='item-name'>{props.e.name  }</div>
       <div >Vote: {props.e.vote_average}</div>
       <div >Original Language: {props.e.original_language}</div>
+      <div className="add" onClick={()=>props.addFavoriteTv(props.e)}>Add</div>
    </div>
 </div>
 </motion.div>
